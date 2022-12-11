@@ -1,12 +1,28 @@
 /* 
 Starter Reference : https://people.cs.rutgers.edu/~pxk/416/notes/c-tutorials/pipe.html
 
-This program emulates a simple  pipe-operation in the shell :
+This program emulates a simple  pipe-operation in the shell.
 
-For example, the command `ls | tr a-z A-Z` can be executed by doing :
+#### Example 1 ####
+the command `ls | tr a-z A-Z` can be executed by doing :
 -> gcc unix_pipe_simulator.c && ./a.out cmd_1 "ls" cmd_2 "tr a-z A-Z"
 
-Assumptions : 
+
+#### Example 2 ####
+To add, let's pipe our two custom programs using this unix_pipe_simulator.c program.
+-> gcc unix_pipe_simulator.c && ./a.out cmd_1 "./prod" cmd_2 "./con"
+
+### Explanation ### 
+In the file-descriptor table of process that runs after executing the first command,  "stdout"
+at location 1 will be replaced by a output popped from a `Queue`. 
+
+Similarly, for process that runs after executing second command, "stdin" at location 0 if it's file-descriptor
+table will be replaced by input pushed to the same `Queue`.  
+
+
+
+
+NOTES : 
 - Output of command typed after `cmd_1` flag will be redirected as input to command typed after `cmd_2` flag
 */
 
@@ -101,8 +117,8 @@ int main(int argc, char *argv[])
 
 
 	puts("Insie Main");
-	disp_command(c->command_1);
-	disp_command(c->command_2);
+	// disp_command(c->command_1);
+	// disp_command(c->command_2);
 
 	pipe(fd);
 
